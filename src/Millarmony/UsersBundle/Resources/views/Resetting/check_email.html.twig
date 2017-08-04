@@ -1,0 +1,33 @@
+{% extends 'MillarmonyUsersBundle::layout.html.twig' %}
+
+{% block title %}Réinitialisation du mot de passe{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+
+            <div class="box">
+
+                <div class="col-lg-12 text-center">
+                    Un e-mail vient de vous être envoyé. Il contient un lien sur lequel il vous faudra cliquer pour
+                    réinitialiser votre mot de passe.<br /><br />
+                    <em>Remarque : Vous ne pouvez demander un nouveau mot de passe que toutes les heures.</em>
+
+                    <br /><br />
+
+                    <strong>Si vous ne recevez pas d'e-mail, vérifiez votre dossier spam ou essayez à nouveau.</strong>
+                    <br /><br />
+
+                    <p style="text-align: center;">
+                    <a href="{{ path('millarmony_site_homepage') }}" class="btn btn-secondary" style="border: 1px solid; border-radius: 5px; color: black">
+                        Revenir à l'accueil</a>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

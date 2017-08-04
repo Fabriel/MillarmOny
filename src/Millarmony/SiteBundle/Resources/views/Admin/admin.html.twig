@@ -1,0 +1,421 @@
+{% extends 'MillarmonyUsersBundle::layout.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="row">
+
+        <div class="box">
+
+            <hr>
+            <h2 class="intro-text text-center">
+                <strong>{{ block('title') }}</strong>
+            </h2>
+            <hr>
+            <br />
+            <div class="col-lg-12">
+                {% for flashMessage in app.session.flashbag.get('info') %}
+                    <div class="alerte alert alert-success text-center">
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+                <div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="active"><a href="#artists" data-toggle="tab" style="font-size: 1.2em;">Biographies</a></li>
+                                <li><a href="#events" data-toggle="tab" style="font-size: 1.2em;">Agenda</a></li>
+                                <li><a href="#music" data-toggle="tab" style="font-size: 1.2em;">Musique</a></li>
+                                <li><a href="#photos" data-toggle="tab" style="font-size: 1.2em;">Photos</a></li>
+                                <li><a href="#videos" data-toggle="tab" style="font-size: 1.2em;">Videos</a></li>
+                                <li><a href="#users" data-toggle="tab" style="font-size: 1.2em;">Membres</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade in active adminTable" id="artists">
+                            <p style="text-align: center;"><a href="{{ path('millarmony_admin_addBio') }}">
+                                    <button type="button" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-plus"></span> Ajouter une biographie</button></a></p>
+                            {% if artists %}
+                                <div class="responsive-table-line">
+                                    <table class="table table-hover table-bordered table-condensed table-body-center" >
+                                        <thead>
+                                        <tr>
+                                            <th style="min-width: 20%; text-align: center;">Nom</th>
+                                            <th style="text-align: center;">Description</th>
+                                            <th>Édition</th>
+                                        </tr>
+                                        </thead>
+                                        {% for artist in artists %}
+                                            <tr>
+                                                <td style="text-align: center;" data-title="Nom">
+                                                    <a class="artistName" href="{{ path('millarmony_admin_artist', { 'id': artist.id }) }}">
+                                                        {{ artist.firstName }} {{ artist.name }}</a></td>
+                                                <td style="text-align: justify; font-size: 0.85em;" data-title="Description" >
+                                                        <p>{{ artist.description|raw|nl2br }}</p></td>
+                                                <td style="text-align: center" data-title="Édition">
+                                                    <p><a href="{{ path('millarmony_admin_editBio', { 'id': artist.id }) }}"
+                                                           class="btn btn-info btn-xs" title="Modifier" style="font-size: 0.75em;">
+                                                            <span class="glyphicon glyphicon-edit"></span></a>
+                                                        <button type="button" class="btn btn-danger btn-xs" title="Supprimer"
+                                                                data-toggle="modal" data-target="#artistDialog{{ artist.id }}">
+                                                                <span class="glyphicon glyphicon-remove"></span>
+                                                        </button></p>
+                                                    <div class="modal fade" id="artistDialog{{ artist.id }}" tabindex="-1" role="dialog"
+                                                         aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                            aria-hidden="true">&times;</button>
+                                                                    <h4 class="modal-title" id="myModalLabel">Confirmation nécessaire</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Voulez-vous vraiment supprimer cette biographie ?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                                        Annuler</button>
+                                                                    <a href="{{ path('millarmony_admin_deleteBio', { 'id': artist.id }) }}"
+                                                                       class="btn btn-danger" style="font-size: 0.85em;">Confirmer</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-warning" style="text-align: center;">Aucune biographie trouvée.</div>
+                            {% endif %}
+                            <p style="text-align: center;"><a href="{{ path('millarmony_admin_addBio') }}"><button type="button" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-plus"></span> Ajouter une biographie</button></a></p>
+                        </div>
+
+                        <div class="tab-pane fade adminTable" id="events">
+                            <p style="text-align: center;"><a href="{{ path('millarmony_admin_addEvent') }}"><button type="button" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-plus"></span> Ajouter un évènement</button></a></p>
+                            {% if events %}
+                                <div class="responsive-table-line">
+                                    <table class="table table-hover table-bordered table-condensed table-body-center" >
+                                        <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Nom</th>
+                                            <th style="text-align: center;">Description</th>
+                                            <th>Édition</th>
+                                        </tr>
+                                        </thead>
+                                        {% for event in events %}
+                                            <tr>
+                                                <td style="text-align: center;" data-title="Nom">
+                                                    <a class="eventName" href="{{ path('millarmony_admin_artist', { 'id': event.id }) }}">
+                                                        {{ event.name }}</a></td>
+                                                <td style="text-align: center; font-size: 0.85em;" data-title="Description">
+                                                    <p class="text-center">
+                                                        <strong>Date et heure</strong> :<br />
+                                                        {{ event.date|localizeddate('full', 'none')|capitalize }} à {{ event.hour }}
+                                                        <br />
+                                                        <strong>Lieu</strong> :<br />
+                                                        {{ event.localization }}</p>
+                                                    <div style="text-align: justify;">
+                                                        {{ event.description|raw|nl2br }}</div></td>
+                                                <td data-title="Édition">
+                                                    <p style="text-align: center">
+                                                        <a href="{{ path('millarmony_admin_editEvent', { 'id': event.id }) }}"
+                                                           class="btn btn-info btn-xs" title="Modifier" style="font-size: 0.75em;">
+                                                            <span class="glyphicon glyphicon-edit"></span></a>
+                                                        <button type="button" class="btn btn-danger btn-xs" title="Supprimer"
+                                                                data-toggle="modal" data-target="#eventDialog{{ event.id }}">
+                                                                <span class="glyphicon glyphicon-remove"></span>
+                                                        </button></p>
+                                                    <div class="modal fade" id="eventDialog{{ event.id }}" tabindex="-1" role="dialog"
+                                                         aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                            aria-hidden="true">&times;</button>
+                                                                    <h4 class="modal-title" id="myModalLabel">Confirmation nécessaire</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Voulez-vous vraiment supprimer cet évènement ?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                                        Annuler</button>
+                                                                    <a href="{{ path('millarmony_admin_deleteEvent', { 'id': event.id }) }}"
+                                                                       class="btn btn-danger" style="font-size: 0.85em;">Confirmer</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-warning" style="text-align: center;">Aucun évènement trouvé.</div>
+                            {% endif %}
+                            <p style="text-align: center;"><a href="{{ path('millarmony_admin_addEvent') }}">
+                                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>
+                                        Ajouter un évènement</button></a></p>
+                        </div>
+
+                        <div class="tab-pane fade adminTable" id="music">
+                            <p style="text-align: center;"><a href="{{ path('millarmony_admin_addMusic') }}"><button type="button" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-plus"></span> Ajouter un fichier son</button></a></p>
+                            {% if musics %}
+                                <div class="responsive-table-line">
+                                    <table class="table table-hover table-bordered table-condensed table-body-center" >
+                                        <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Titre</th>
+                                            <th style="text-align: center;">Édition</th>
+                                        </tr>
+                                        </thead>
+                                        {% for music in musics %}
+                                            <tr>
+                                                <td style="text-align: center;" data-title="Titre">
+                                                    {{ music.title }}</a></td>
+                                                <td data-title="Édition">
+                                                    <p style="text-align: center">
+                                                        <a href="{{ path('millarmony_admin_editMusic', { 'id': music.id }) }}"
+                                                           class="btn btn-info btn-xs" title="Modifier le titre" style="font-size: 0.75em;">
+                                                            <span class="glyphicon glyphicon-edit"></span></a>
+                                                        <button type="button" class="btn btn-danger btn-xs" title="Supprimer"
+                                                                data-toggle="modal" data-target="#musicDialog{{ music.id }}">
+                                                            <span class="glyphicon glyphicon-remove"></span>
+                                                        </button></p>
+                                                    <div class="modal fade" id="musicDialog{{ music.id }}" tabindex="-1" role="dialog"
+                                                         aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                            aria-hidden="true">&times;</button>
+                                                                    <h4 class="modal-title" id="myModalLabel">Confirmation nécessaire</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Voulez-vous vraiment supprimer ce fichier ?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                                        Annuler</button>
+                                                                    <a href="{{ path('millarmony_admin_deleteMusic', { 'id': music.id }) }}"
+                                                                       class="btn btn-danger" style="font-size: 0.85em;">Confirmer</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-warning" style="text-align: center;">Aucun fichier son trouvé.</div>
+                            {% endif %}
+                            <p style="text-align: center;"><a href="{{ path('millarmony_admin_addMusic') }}">
+                                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>
+                                        Ajouter un fichier son</button></a></p>
+                        </div>
+
+                        <div class="tab-pane fade adminTable" id="photos">
+                            <p style="text-align: center;"><a href="{{ path('millarmony_admin_addPhoto') }}"><button type="button" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-plus"></span> Ajouter une photo</button></a></p>
+                            {% if photos %}
+                                <div class="responsive-table-line">
+                                    <table class="table table-hover table-bordered table-condensed table-body-center" >
+                                        <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Date du concert</th>
+                                            <th style="text-align: center;">Photo</th>
+                                            <th>Édition</th>
+                                        </tr>
+                                        </thead>
+                                        {% for photo in photos %}
+                                            <tr>
+                                                <td style="text-align: center;" data-title="Date">
+                                                        {{ photo.date|date('d/m/Y') }}</a></td>
+                                                <td style="text-align: center; font-size: 0.85em;" data-title="Photo">
+                                                    <p class="text-center">
+                                                        <img src="{{ asset(photo.miniature.AssetPath) }}" /></p></td>
+                                                <td data-title="Édition">
+                                                    <p style="text-align: center">
+                                                        <a href="{{ path('millarmony_admin_editPhoto', { 'id': photo.id }) }}"
+                                                           class="btn btn-info btn-xs" title="Modifier les informations" style="font-size: 0.75em;">
+                                                            <span class="glyphicon glyphicon-edit"></span></a>
+                                                        <button type="button" class="btn btn-danger btn-xs" title="Supprimer"
+                                                                data-toggle="modal" data-target="#photoDialog{{ photo.id }}">
+                                                            <span class="glyphicon glyphicon-remove"></span>
+                                                        </button></p>
+                                                    <div class="modal fade" id="photoDialog{{ photo.id }}" tabindex="-1" role="dialog"
+                                                         aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                            aria-hidden="true">&times;</button>
+                                                                    <h4 class="modal-title" id="myModalLabel">Confirmation nécessaire</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Voulez-vous vraiment supprimer cette photo ?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                                        Annuler</button>
+                                                                    <a href="{{ path('millarmony_admin_deletePhoto', { 'id': photo.id }) }}"
+                                                                       class="btn btn-danger" style="font-size: 0.85em;">Confirmer</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-warning" style="text-align: center;">Aucune photo trouvée.</div>
+                            {% endif %}
+                            <p style="text-align: center;"><a href="{{ path('millarmony_admin_addPhoto') }}">
+                                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>
+                                        Ajouter une photo</button></a></p>
+                        </div>
+
+                        <div class="tab-pane fade adminTable" id="videos">
+                            <p style="text-align: center;"><a href="{{ path('millarmony_admin_addVideo') }}"><button type="button" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-plus"></span> Ajouter une vidéo</button></a></p>
+                            {% if videos %}
+                                <div class="responsive-table-line">
+                                    <table class="table table-hover table-bordered table-condensed table-body-center" >
+                                        <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Titre</th>
+                                            <th>Édition</th>
+                                        </tr>
+                                        </thead>
+                                        {% for video in videos %}
+                                            <tr>
+                                                <td style="text-align: center;" data-title="Titre">
+                                                    {{ video.title }}</a></td>
+                                                <td data-title="Édition">
+                                                    <p style="text-align: center">
+                                                        <a href="{{ path('millarmony_admin_editVideo', { 'id': video.id }) }}"
+                                                           class="btn btn-info btn-xs" title="Modifier le titre" style="font-size: 0.75em;">
+                                                            <span class="glyphicon glyphicon-edit"></span></a>
+                                                        <button type="button" class="btn btn-danger btn-xs" title="Supprimer"
+                                                                data-toggle="modal" data-target="#videoDialog{{ video.id }}">
+                                                            <span class="glyphicon glyphicon-remove"></span>
+                                                        </button></p>
+                                                    <div class="modal fade" id="videoDialog{{ video.id }}" tabindex="-1" role="dialog"
+                                                         aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                            aria-hidden="true">&times;</button>
+                                                                    <h4 class="modal-title" id="myModalLabel">Confirmation nécessaire</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Voulez-vous vraiment supprimer cette vidéo ?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                                        Annuler</button>
+                                                                    <a href="{{ path('millarmony_admin_deleteVideo', { 'id': video.id }) }}"
+                                                                       class="btn btn-danger" style="font-size: 0.85em;">Confirmer</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-warning" style="text-align: center;">Aucune vidéo trouvée.</div>
+                            {% endif %}
+                            <p style="text-align: center;"><a href="{{ path('millarmony_admin_addVideo') }}">
+                                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>
+                                        Ajouter une vidéo</button></a></p>
+                        </div>
+
+                        <div class="tab-pane fade adminTable" id="users">
+                            <p style="text-align: center;"><a href="{{ path('fos_user_registration_register') }}">
+                                    <button type="button" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-plus"></span> Ajouter un membre</button></a></p>
+                            {% if users %}
+                                <div class="responsive-table-line col-lg-offset-3 col-lg-6">
+                                    <table class="table table-hover table-bordered table-condensed table-body-center" >
+                                        <thead>
+                                        <tr>
+                                            <th style="min-width: 50%; text-align: center;">Pseudonyme</th>
+                                            <th style="min-width: 50%; text-align: center;">Suppression</th>
+                                        </tr>
+                                        </thead>
+                                        {% for user in users %}
+                                            <tr>
+                                                <td style="text-align: center;" data-title="Pseudonyme">{{ user.username }}</a></td>
+                                                <td style="text-align: center" data-title="Suppression">
+                                                    <button type="button" class="btn btn-danger btn-xs" title="Supprimer"
+                                                            data-toggle="modal" data-target="#userDialog{{ user.id }}">
+                                                        <span class="glyphicon glyphicon-remove"></span>
+                                                    </button>
+                                                    <div class="modal fade" id="userDialog{{ user.id }}" tabindex="-1" role="dialog"
+                                                         aria-labelledby="myModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                            aria-hidden="true">&times;</button>
+                                                                    <h4 class="modal-title" id="myModalLabel">Confirmation nécessaire</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Voulez-vous vraiment supprimer ce membre ?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                                        Annuler</button>
+                                                                    <a href="{{ path('millarmony_admin_deleteUser', { 'id': user.id }) }}"
+                                                                       class="btn btn-danger" style="font-size: 0.85em;">Confirmer</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                                <div class="col-lg-12">
+                                <p style="text-align: center;"><a href="{{ path('fos_user_registration_register') }}"><button type="button" class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-plus"></span> Ajouter un membre</button></a></p>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-warning" style="text-align: center;">Aucun membre trouvé.</div>
+                                <p style="text-align: center;"><a href="{{ path('fos_user_registration_register') }}"><button type="button" class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-plus"></span> Ajouter un membre</button></a></p>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

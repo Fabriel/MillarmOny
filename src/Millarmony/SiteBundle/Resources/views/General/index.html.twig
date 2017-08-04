@@ -1,0 +1,119 @@
+{% extends 'MillarmonySiteBundle::layout.html.twig'%}
+{% set homePage = true %}
+
+{% block title %}{{ parent() }} - Accueil{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="row">
+
+        <div class="box">
+
+            {% for flashMessage in app.session.flashbag.get('info') %}
+                <div class="alert alert-success text-center">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+
+            <div class="col-lg-12 text-center">
+                <div id="carousel-example-generic" class="carousel slide">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators hidden-xs">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img class="img-responsive img-full" src="{{ asset('img/logo_officiel_millarmony.jpg') }}" alt="duo_millarmony">
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive img-full" src="{{ asset('img/photo_1.jpg') }}" alt="duo_millarmony">
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive img-full" src="{{ asset('img/photo_2.jpg') }}" alt="concert_2014_10_14">
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive img-full" src="{{ asset('img/photo_3.jpg') }}" alt="quatre_mains">
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive img-full" src="{{ asset('img/photo_4.jpg') }}" alt="concert_2016_01_19">
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                        <span class="icon-prev"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                        <span class="icon-next"></span>
+                    </a>
+                </div>
+                <h2 class="brand-before">
+                    <small>Bienvenue sur le site du</small>
+                </h2>
+                <h1 class="brand-name">Duo MillarmOny</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">
+                    Myriam Loubier-Buisson et Lionel CLoarec
+                    <br /><br />
+                    <strong>Duo MillarmOny</strong>
+                </h2>
+                <hr>
+                <img class="img-responsive img-left" src="{{ asset('img/img_1.jpg') }}" alt="lionel_et_myriam">
+                <p>Nous sommes heureux de vous retrouver sur notre site, et espérons que vous y trouverez toutes
+                    les informations nécessaires concernant notre duo.</p>
+                <p class="prez">Outre nos biographies, l'historique de la formation de notre duo et notre répertoire
+                    sur <a href="{{ path('millarmony_site_about') }}">cette page</a>, vous pourrez également consulter
+                    le détail de nos <a href="{{ path('millarmony_site_diary') }}">concerts à venir</a>, ainsi que
+                    celle de nos <a href="{{ path('millarmony_site_archives') }}">concerts passés</a>.</p>
+                <p class="prez">Il vous sera également possible de consulter notre "galerie" de
+                    <a href="{{ path('millarmony_site_media_photos') }}">photos</a>, et
+                    d'<a href="{{ path('millarmony_site_media_music') }}">écouter</a> et
+                    <a href="{{ path('millarmony_site_media_videos') }}">regarder</a>
+                    quelques extraits de nos concerts.</p>
+                <p class="prez">Enfin, vous pouvez nous contacter par le biais du formulaire que vous trouverez
+                    <a href="#">ici</a>.</p>
+                <p>Bonne visite et à bientôt !</p>
+                <p style="text-align: right;"><em>Myriam et Lionel</em></p>
+            </div>
+        </div>
+    </div>
+
+    {% if event %}
+        <div class="row">
+
+            <div class="box">
+
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">
+                        <u><em>Prochain concert</em></u><br/><br/>
+                        {{ event.date|localizeddate('full', 'none') }} à {{ event.hour }}<br /><br />
+                        {{ event.localization }}
+                        <br /><br />
+                        <strong>{{ event.name }}</strong>
+                    </h2>
+                    <hr>
+                    {{ event.description|raw}}
+                </div>
+
+            </div>
+
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

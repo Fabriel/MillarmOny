@@ -1,0 +1,83 @@
+{% extends 'MillarmonyUsersBundle::layout.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+<div class="container registration">
+
+    <div class="row">
+
+         <div class="box">
+
+            <hr>
+            <h2 class="intro-text text-center"><strong>Inscription</strong></h2>
+            <hr>
+            <br />
+
+             {{ form_start(form, {'method': 'post',
+                 'action': path('fos_user_registration_register'),
+                 'attr': {'class': 'fos_user_registration_register; form-horizontal'
+                 }}) }}
+             {{ form_errors(form) }}
+
+             <div class="form-group text-center">
+                 <label for="username">Pseudonyme :</label>
+                 <div class="col-lg-12">
+                     {{ form_errors(form.username) }}
+                     {{ form_widget(form.username, { 'attr':  {
+                         'class': 'form-control',
+                         'style': 'max-width: 300px; text-align: center; margin: auto'
+                     }}) }}
+                 </div>
+             </div>
+
+             <div class="form-group text-center">
+                 <label for="email">Email :</label>
+                 <div class="col-lg-12">
+                     {{ form_errors(form.email) }}
+                     {{ form_widget(form.email, { 'attr':  {
+                         'class': 'form-control',
+                         'style': 'max-width: 300px; text-align: center; margin: auto'
+                     }}) }}
+                 </div>
+             </div>
+
+             <div class="form-group text-center">
+                 <label for="plainPassword.first">Mot de passe :</label>
+                 <div class="col-lg-12">
+                     {{ form_widget(form.plainPassword.first, { 'attr':  {
+                         'class': 'form-control',
+                         'style': 'max-width: 200px; text-align: center; margin: auto'
+                     }}) }}
+                 </div>
+             </div>
+             <div class="form-group text-center">
+                 <label for="plainPassword.second">Vérification du mot de passe :</label>
+                 <div class="col-lg-12">
+                     {{ form_errors(form.plainPassword.second) }}
+                     {{ form_widget(form.plainPassword.second, { 'attr':  {
+                         'class': 'form-control',
+                         'style': 'max-width: 200px; text-align: center; margin: auto'
+                     }}) }}
+                 </div>
+             </div>
+             <br />
+             <div class="form-group text-center">
+                 <div class="col-lg-12">
+                     <a href="{{ path('millarmony_admin_manage') }}"><button type="button" class="btn btn-secondary"
+                         style="color: black; border: 1px solid; border-radius: 5px;">
+                             Annuler</button></a>
+                     <input type="submit" class="btn btn-secondary" style="border: 1px solid; border-radius: 5px;" value="Enregistrer" />
+                 </div>
+             </div>
+
+             {{ form_rest(form) }}
+
+             {{ form_end(form) }}
+
+         </div>
+
+    </div>
+
+</div>
+{% endblock %}

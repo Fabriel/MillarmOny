@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    Bonjour.<br /><br />
+    {{ post.firstName|capitalize }} {{ post.name|upper }} vient de vous laisser un message sur votre site.<br /><br />
+    En voici le contenu :<br /><br />
+    <strong><em>{{ post.message|nl2br }}</em></strong><br/><br />
+    Vous pouvez lui répondre à cette adresse : {{ post.email }}
+    </a>
+</body>
+
+</html>

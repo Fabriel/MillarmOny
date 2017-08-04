@@ -1,0 +1,10 @@
+services:
+#    millarmony_users.example:
+#        class: Millarmony\UsersBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    millarmony_users.registration_listener:
+        class: Millarmony\UsersBundle\Listener\RegistrationListener
+        tags:
+            - { name: kernel.event_listener, event: fos_user.registration.completed, method: onKernelResponse, priority: 255 }
+

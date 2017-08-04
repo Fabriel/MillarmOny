@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{ asset('img/millarmony.ico') }}">
+
+    <title>{% block title %}Duo MillarmOny - Piano à 4 mains et 2 pianos{% endblock %}</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{ asset('css/business-casual.css') }}" rel="stylesheet">
+    {% if is_granted('ROLE_ADMIN') %}
+    <style type="text/css">
+        .content
+        {
+            min-height: 84.5vh;
+        }
+    </style>
+    {% endif %}
+
+    {% block links %}{% endblock %}
+
+    <!-- Fonts -->
+    <link href="{{ asset('css/fonts.css') }}" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    {% block scripts %}{% endblock %}
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+            <a class="navbar-brand" href="{{ path('millarmony_site_homepage') }}"><img src="{{ asset('img/logo_millarmony.jpg') }}"></a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a id="logo" href="{{ path('millarmony_site_homepage') }}"><img src="{{ asset('img/logo_navbar.jpg') }}"></a>
+                </li>
+                <li class="{% if homePage is defined %}active{% endif %} menu-item">
+                    <a href="{{ path('millarmony_site_homepage') }}">Accueil</a>
+                </li>
+                <li class="{% if aboutPage is defined %}active{% endif %} menu-item">
+                    <a href="{{ path('millarmony_site_about') }}">Le duo</a>
+                </li>
+                <li class="{% if diaryPage is defined %}active{% endif %} menu-item">
+                    <a href="{{ path('millarmony_site_diary') }}">Agenda</a>
+                </li>
+                <li class="{% if archivesPage is defined %}active{% endif %} menu-item">
+                    <a href="{{ path('millarmony_site_archives') }}">Archives</a>
+                </li>
+                <li class="{% if mediaPage is defined %}active{% endif %} dropdown menu-item">
+                    <a data-toggle="dropdown" class="hidden-xs" href="#">Multimédia <b class="caret"></b></a>
+                    <a data-toggle="dropdown" class="visible-xs" href="#">Multimédia <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ path('millarmony_site_media_music') }}" class="hidden-xs">Musique</a>
+                            <a href="{{ path('millarmony_site_media_music') }}" class="visible-xs" data-toggle="collapse" data-target=".navbar-collapse">Musique</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('millarmony_site_media_photos') }}" class="hidden-xs">Photos</a>
+                            <a href="{{ path('millarmony_site_media_photos') }}" class="visible-xs" data-toggle="collapse" data-target=".navbar-collapse">Photos</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('millarmony_site_media_videos') }}" class="hidden-xs">Vidéos</a>
+                            <a href="{{ path('millarmony_site_media_videos') }}" class="visible-xs" data-toggle="collapse" data-target=".navbar-collapse">Vidéos</a>
+                        </li>
+                    </ul>
+                </li>
+                {% if is_granted('ROLE_ADMIN') == false %}
+                    <li class="{% if contactPage is defined %}active{% endif %} menu-item">
+                            <a href="{{ path('millarmony_site_contact') }}">Contact</a>
+                    </li>
+                {% else %}
+                    <li class="dropdown menu-item ">
+                        <a data-toggle="dropdown" class="hidden-xs btn btn-secondary" style="float: left; font-size: 1.25em;" href="#">
+                            <span class="glyphicon glyphicon-cog"></span> <b class="caret"></b></a>
+                        <a data-toggle="dropdown" class="visible-xs btn btn-secondary" style="float: left; font-size: 1.25em;" href="#">
+                            <span class="glyphicon glyphicon-cog"></span> <b class="caret"></b></a>
+                        <ul class="dropdown-menu dropdown-menu-right" id="menu-admin">
+                            <li class="dropdown-submenu">
+                                <a data-toggle="dropdown" class="hidden-xs btn btn-secondary" style="float: left;" href="#">
+                                    Ajout </a>
+                                <a data-toggle="dropdown" class="visible-xs btn btn-secondary" style="float: left;" href="#">
+                                    Ajout </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ path('millarmony_admin_addBio') }}" class="hidden-xs">Biographie</a>
+                                        <a href="{{ path('millarmony_admin_addBio') }}" class="visible-xs" data-toggle="collapse" data-target=".navbar-collapse">Biographie</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('millarmony_admin_addEvent') }}" class="hidden-xs">Évènement</a>
+                                        <a href="{{ path('millarmony_admin_addEvent') }}" class="visible-xs" data-toggle="collapse" data-target=".navbar-collapse">Évènement</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('millarmony_admin_addMusic') }}" class="hidden-xs">Musique</a>
+                                        <a href="{{ path('millarmony_admin_addMusic') }}" class="visible-xs" data-toggle="collapse" data-target=".navbar-collapse">Musique</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('millarmony_admin_addPhoto') }}" class="hidden-xs">Photo</a>
+                                        <a href="{{ path('millarmony_admin_addPhoto') }}" class="visible-xs" data-toggle="collapse" data-target=".navbar-collapse">Photo</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('millarmony_admin_addVideo') }}" class="hidden-xs">Vidéo</a>
+                                        <a href="{{ path('millarmony_admin_addVideo') }}" class="visible-xs" data-toggle="collapse" data-target=".navbar-collapse">Vidéo</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{{ path('millarmony_admin_manage') }}" class="hidden-xs">Administration</a>
+                                <a href="{{ path('millarmony_admin_manage') }}" class="visible-xs" data-toggle="collapse" data-target=".navbar-collapse">Administration</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('fos_user_security_logout') }}" class="hidden-xs">Déconnexion</a>
+                                <a href="{{ path('fos_user_security_logout') }}" class="visible-xs" data-toggle="collapse" data-target=".navbar-collapse">Déconnexion</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</nav>
+
+<div class="content">{% block content %}{% endblock %}</div>
+
+<footer>
+    {% if is_granted('ROLE_ADMIN') == false %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>&copy; Duo MillarmOny - 2017</p>
+                <hr>
+                <div class="col-lg-12 ad_leg">
+                    <a href="{{ path('millarmony_site_legals') }}" id="legals_admin" style="color: black;">Mentions légales</a>
+                    <a href="{{ path('fos_user_security_login') }}" class="btn btn-secondary" id="admin" style="font-size: 0.9em; border: 1px solid; border-radius: 5px; color: black;">
+                    <span class="glyphicon glyphicon-cog"></span>Administration</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>
+                        <span id="cpr">&copy; Duo MillarmOny - 2017</span>
+                        <a href="{{ path('millarmony_site_legals') }}" id="legals" style="color: black;">Mentions légales</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</footer>
+
+<!-- jQuery -->
+<script src="{{ asset('js/jquery.js') }}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+<!-- Script to Activate the Carousel -->
+<script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+</script>
+
+<!-- Lightbox JavaScript -->
+<script src="{{ asset('js/lightbox.js') }}"></script>
+
+<!-- Cookiechoices -->
+<script src="{{ asset('js/cookiechoices.js') }}"></script>
+<script>document.addEventListener
+    ('DOMContentLoaded', function(event) { cookieChoices.showCookieConsentBar
+    ('Ce site utilise des cookies pour vous offrir le meilleur service. En poursuivant votre navigation, ' +
+        'vous acceptez l\’utilisation des cookies.',
+        'J\’accepte', 'En savoir plus', 'https://www.cnil.fr/fr/cookies-traceurs-que-dit-la-loi'); });
+</script>
+
+{% block supScript %}{% endblock %}
+
+</body>
+
+</html>

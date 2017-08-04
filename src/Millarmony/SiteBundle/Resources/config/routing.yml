@@ -1,0 +1,3 @@
+millarmony_site_homepage:
+    path:     /
+    defaults: { _controller: MillarmonySiteBundle:Millarmony:index }

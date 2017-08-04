@@ -1,0 +1,106 @@
+{% extends 'MillarmonySiteBundle::layout.html.twig'%}
+{% set contactPage = true %}
+
+{% block title %}{{ parent() }} - Contact{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% for flashMessage in app.session.flashbag.get('info') %}
+        <div class="alert alert-success text-center">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <div class="container">
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">Formulaire de
+                        <strong>contact</strong>
+                    </h2>
+                    <hr>
+                    <p>Si vous souhaitez nous contacter, vous pouvez le faire en nous laissant un message au moyen du formulaire ci-dessous,
+                        message qui nous sera immédiatement transmis (avec vos coordonnées bien sûr) par courriel ; vous pouvez également
+                        cliquer sur notre adresse électronique (indiquée en bas de cette page).<br />
+                        Dans les deux cas, nous vous répondrons dès que possible, mais ne nous en veuillez pas si la réponse tarde un peu à
+                        venir, nos diverses activités étant dans l'ensemble assez chronophages !</p>
+
+                    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                    {{ form_errors(form) }}
+
+                    <br />
+
+                    <div class="row">
+
+                        <div class="form-group col-lg-12 text-center">
+                            <label for="firstName">Prénom :</label>
+                            {{ form_errors(form.firstName) }}
+                            {{ form_widget(form.firstName, {'attr': {'class': 'form-control',
+                                'style': 'color: black; max-width: 400px; margin: auto; text-align: center;'
+                            }}) }}
+                        </div>
+
+                        <div class="form-group col-lg-12 text-center">
+                            <label for="firstName">Nom :</label>
+                            {{ form_errors(form.name) }}
+                            {{ form_widget(form.name, {'attr': {'class': 'form-control',
+                                'style': 'color: black; max-width: 400px; margin: auto; text-align: center;'
+                            }}) }}
+                        </div>
+
+                        <div class="form-group col-lg-12 text-center">
+                            <label for="email">Adresse email :</label>
+                            {{ form_errors(form.email) }}
+                            {{ form_widget(form.email, {'attr': {'class': 'form-control',
+                                'style': 'color: black; max-width: 400px; margin: auto; text-align: center;'
+                            }}) }}
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="form-group text-center">
+                            <label for="message">Message :</label>
+                            <div class="col-lg-12">
+                                {{ form_errors(form.message) }}
+                                {{ form_widget(form.message, {'attr': {'class': 'form-control',
+                                    'rows': '10',
+                                    'style': 'margin: auto;'
+                                }}) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <a href="{{ path('millarmony_site_homepage') }}" class="btn btn-secondary" style="border: 1px solid; border-radius: 5px; color: black">
+                                Accueil</a>
+                            <input type="submit" class="btn btn-success" style="border: 1px solid; border-radius: 5px; color: black"
+                                   value="Envoyer" />
+                        </div>
+
+                    </div>
+
+                    {{ form_rest(form) }}
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12 text-center">
+                    <hr>
+                    <h2 class="intro-text text-center">Coordonnées du
+                        <strong>Duo Millarmony</strong>
+                    </h2>
+                    <hr>
+                </div>
+                <div class="col-lg-12 text-center">
+                    <p>Adresse électronique:
+                        <strong><a href="mailto:millarmony@loubier.fr">millarmony@loubier.fr</a></strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

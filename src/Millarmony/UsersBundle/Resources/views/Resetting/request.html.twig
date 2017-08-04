@@ -1,0 +1,42 @@
+{% extends 'MillarmonyUsersBundle::layout.html.twig' %}
+
+{% block title %}Réinitialisation du mot de passe{% endblock %}
+
+{% block content %}
+    <div class="container registration">
+
+        <div class="row">
+
+            <div class="box">
+
+                <hr>
+                <h2 class="intro-text text-center"><strong>Réinitialisation du mot de passe</strong></h2>
+                <hr>
+                <br />
+
+                <form action="{{ path('fos_user_resetting_send_email') }}" method="POST"
+                      class="fos_user_resetting_request">
+
+                    <div class="form-group text-center">
+                        <label for="username">Pseudonyme :</label>
+                        <div class="col-xs-12">
+                            <input type="text" class="form-control" id="username" name="username"
+                            style="max-width: 250px; text-align: center; margin: auto;" required="required" />
+                        </div>
+                    </div>
+
+                    <br /><br />
+
+                    <div class="form-group text-center">
+                        <input type="submit" class="btn btn-secondary" style="border: 1px solid; border-radius: 5px;"
+                               value="Demander la réinitialisation" />
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

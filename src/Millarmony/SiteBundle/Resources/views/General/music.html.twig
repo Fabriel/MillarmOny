@@ -1,0 +1,126 @@
+{% extends 'MillarmonySiteBundle::layout.html.twig'%}
+{% set mediaPage = true %}
+
+{% block title %}Musique - {{ parent() }}{% endblock %}
+
+{% block links %}
+    <link type="text/css" href="{{ asset('skin/pink.flag/css/jplayer.pink.flag.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset('js/jquery.jplayer.min.js') }}"></script>
+    <script src="{{ asset('js/jplayer.playlist.min.js') }}"></script>
+    <script>
+        //<![CDATA[
+        $(document).ready(function()
+        {
+            new jPlayerPlaylist({
+                jPlayer: "#jquery_jplayer_1",
+                cssSelectorAncestor: "#jp_container_1"
+            }, [
+                {% for music in musics %}
+                {
+                    title: "{{ music.title }}",
+                    mp3: "{{ asset(music.AssetPath) }}"
+                },
+                {% endfor %}
+            ], {
+                swfPath: "{{ asset('js/jquery.jplayer.swf') }}",
+                supplied: "mp3",
+                wmode: "window",
+                useStateClassSkin: true,
+                autoBlur: false,
+                smoothPlayBar: true,
+                keyEnabled: true,
+                volume: 1
+            });
+        });
+        //]]>
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        {% for flashMessage in app.session.flashbag.get('info') %}
+            <div class="alert alert-success text-center">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        <div class="row">
+
+            <div class="box">
+
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">
+                        Extraits musicaux de concerts du<br /><br />
+                        <strong>Duo Millarmony</strong>
+                    </h2>
+                    <hr>
+                </div>
+
+                {% if musics %}
+                    <div class="col-lg-12">
+                        <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+                        <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
+                            <div class="jp-type-playlist">
+                                <div class="jp-gui jp-interface">
+                                    <div class="jp-volume-controls">
+                                        <button class="jp-mute" role="button" tabindex="0">mute</button>
+                                        <button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+                                        <div class="jp-volume-bar">
+                                            <div class="jp-volume-bar-value"></div>
+                                        </div>
+                                    </div>
+                                    <div class="jp-controls-holder">
+                                        <div class="jp-controls">
+                                            <button class="jp-previous" role="button" tabindex="0">previous</button>
+                                            <button class="jp-play" role="button" tabindex="0">play</button>
+                                            <button class="jp-stop" role="button" tabindex="0">stop</button>
+                                            <button class="jp-next" role="button" tabindex="0">next</button>
+                                        </div>
+                                        <div class="jp-progress">
+                                            <div class="jp-seek-bar">
+                                                <div class="jp-play-bar"></div>
+                                            </div>
+                                        </div>
+                                        <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+                                        <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+                                        <div class="jp-toggles">
+                                            <button class="jp-repeat" role="button" tabindex="0">repeat</button>
+                                            <button class="jp-shuffle" role="button" tabindex="0">shuffle</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="jp-playlist">
+                                    <ul>
+                                        <li>&nbsp;</li>
+                                    </ul>
+                                </div>
+                                <div class="jp-no-solution">
+                                    <span><strong>Mise à jour requise</strong></span>
+                                    Pour lire les fichiers son, vous devez mettre à jour votre navigateur ou
+                                    votre <a href="http://get.adobe.com/flashplayer/" target="_blank">plugin Flash</a>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <p style="text-align: center;">
+                                Une maintenance étant en cours, aucun fichier son n'est disponible pour le moment ; merci de réessayer plus tard.
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

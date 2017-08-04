@@ -1,0 +1,62 @@
+{% extends 'MillarmonyUsersBundle::layout.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+
+            <div class="box">
+
+                {% for flashMessage in app.session.flashbag.get('info') %}
+                    <div class="alert alert-success text-center">
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+
+                <hr>
+                <h2 class="intro-text text-center"><strong>{{ title }}</strong></h2>
+                <hr>
+
+                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                {{ form_errors(form) }}
+
+                <br />
+
+                <div class="form-group text-center">
+                    <label for="concert">Titre :</label>
+                    {{ form_errors(form.title) }}
+                    <div class="col-lg-12">
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control',
+                            'style': 'color: black; max-width: 600px; margin: auto; text-align: center;'
+                        }}) }}
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="form-group text-center">
+                    <label for="file">Fichier :</label>
+                    {{ form_errors(form.file) }}
+                    {{ form_widget(form.file, {'attr': {'style': 'margin: auto;'}}) }}
+                </div>
+
+                <br />
+
+                <div class="form-group text-center">
+                    <a href="{{ path('millarmony_site_homepage') }}" class="btn btn-secondary" style="border: 1px solid; border-radius: 5px; color: black">Accueil</a>
+                    <a href="{{ path('millarmony_admin_manage') }}" class="btn btn-secondary" style="border: 1px solid; border-radius: 5px; color: black">Administration</a>
+                    <input type="submit" class="btn btn-primary" style="border: 1px solid; border-radius: 5px; color: white" value="Valider" />
+                </div>
+
+                {{ form_rest(form) }}
+
+                {{ form_end(form) }}
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

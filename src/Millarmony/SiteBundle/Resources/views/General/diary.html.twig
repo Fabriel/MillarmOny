@@ -1,0 +1,67 @@
+{% extends 'MillarmonySiteBundle::layout.html.twig'%}
+{% set diaryPage = true %}
+
+{% block title %}{{ parent() }} - Agenda{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        {% for flashMessage in app.session.flashbag.get('info') %}
+            <div class="alert alert-success text-center">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        {% if events %}
+
+            {% for event in events %}
+                <div class="row">
+
+                    <div class="box">
+
+                        <div class="col-lg-12">
+                            <hr>
+                            <h2 class="intro-text text-center">
+                                {{ event.date|localizeddate('full', 'none') }} à {{ event.hour }}<br /><br />
+                                {{ event.localization }}
+                                <br /><br />
+                                <strong>{{ event.name }}</strong>
+                            </h2>
+                            <hr>
+                            {{ event.description|raw}}
+                        </div>
+
+                    </div>
+
+                </div>
+            {% endfor %}
+
+        {% else %}
+
+        <div class="row">
+
+            <div class="col-lg-offset-2 col-lg-8">
+
+            <div class="box">
+
+
+                    <hr>
+                    <h2 class="intro-text text-center">
+                        Aucun concert programmé
+                        <br /><br />
+                        <strong>pour l'instant</strong>
+                    </h2>
+                    <hr>
+                    <p>Nous n'avons pour le moment aucune date à vous communiquer pour nos futurs concerts ; dès qu'il
+                        y en aura une, vous trouverez ici toutes les informations nécessaires si vous souhaitez y
+                        assister.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+{% endblock %}

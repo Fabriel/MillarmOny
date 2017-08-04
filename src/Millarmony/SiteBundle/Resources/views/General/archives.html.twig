@@ -1,0 +1,46 @@
+{% extends 'MillarmonySiteBundle::layout.html.twig'%}
+{% set archivesPage = true %}
+
+{% block title %}{{ parent() }} - Archives{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        {% for flashMessage in app.session.flashbag.get('info') %}
+            <div class="alert alert-success text-center">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(archives) }}
+        </div>
+
+        {% for archive in archives %}
+            <div class="row">
+
+                <div class="box">
+
+                    <div class="col-lg-12">
+                        <hr>
+                        <h2 class="intro-text text-center">
+                            {{ archive.date|localizeddate('full', 'none') }} à {{ archive.hour }}<br /><br />
+                            {{ archive.localization }}
+                            <br /><br />
+                            <strong>{{ archive.name }}</strong>
+                        </h2>
+                        <hr>
+                        {{ archive.description|raw}}
+                    </div>
+
+                </div>
+
+            </div>
+        {% endfor %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(archives) }}
+        </div>
+
+    </div>
+{% endblock %}

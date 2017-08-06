@@ -27,7 +27,7 @@ class MillarmonyController extends Controller
         $now = new DateTime();
         $date = $now->format('Y-m-d H:i:s');
 
-        $event = $repository->getNext($date);
+        $event = $repository->getNext($date);   // Get back the next event
 
         return $this->render('MillarmonySiteBundle:General:index.html.twig', array('event' => $event));
     }
@@ -39,7 +39,7 @@ class MillarmonyController extends Controller
     {
         $repository = $this->getDoctrine()->getRepository(Artists::class);
 
-        $artists = $repository->findAll();
+        $artists = $repository->findAll();      // Retrieves all biographies
 
         return $this->render('MillarmonySiteBundle:General:about.html.twig', array('artists' => $artists));
     }
@@ -54,7 +54,7 @@ class MillarmonyController extends Controller
         $now = new DateTime();
         $date = $now->format('Y-m-d H:i:s');
 
-        $events = $repository->getDiary($date);
+        $events = $repository->getDiary($date);     // Get back a list of concerts later than $date
 
         return $this->render('MillarmonySiteBundle:General:diary.html.twig', array('events' => $events));
     }
@@ -66,13 +66,13 @@ class MillarmonyController extends Controller
     {
         $em    = $this->get('doctrine.orm.entity_manager');
         $dql   = "SELECT d FROM MillarmonySiteBundle:Diary d WHERE d.date < CURRENT_DATE() ORDER BY d.date DESC";
-        $query = $em->createQuery($dql);
+        $query = $em->createQuery($dql);                // Query for getting back a list of events previous to a date
 
         $paginator  = $this->get('knp_paginator');
         $archives = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
-            5
+            5                                           // Pagination for archives page (limit by page : 5)
         );
 
         return $this->render('MillarmonySiteBundle:General:archives.html.twig', array('archives' => $archives));
@@ -85,7 +85,7 @@ class MillarmonyController extends Controller
     {
         $repository = $this->getDoctrine()->getRepository(Music::class);
 
-        $musics = $repository->findAll();
+        $musics = $repository->findAll();               // Retrieves all musics
 
         return $this->render('MillarmonySiteBundle:General:music.html.twig', array('musics' => $musics));
     }
@@ -97,9 +97,9 @@ class MillarmonyController extends Controller
     {
         $repository = $this->getDoctrine()->getRepository(Photos::class);
 
-        $photos = $repository->findAll();
+        $photos = $repository->findAll();               // Retrieves all photos
         $dates = [];
-        foreach ($photos as $photo) {
+        foreach ($photos as $photo) {                   // Allows to sort out photos by date
             $date = $photo->getDate();
             if(!in_array($date, $dates))
             {
@@ -120,7 +120,7 @@ class MillarmonyController extends Controller
     {
         $repository = $this->getDoctrine()->getRepository(Videos::class);
 
-        $videos = $repository->findAll();
+        $videos = $repository->findAll();           // Retrieves all videos
 
         return $this->render('MillarmonySiteBundle:General:videos.html.twig', array('videos' => $videos));
     }
@@ -135,15 +135,15 @@ class MillarmonyController extends Controller
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $post = $request->request->get('millarmony_site_contact_form');
             $message = new Swift_Message();
-            $message->setSubject('Nouveau message pour le Duo MillarmOny')
-                ->setFrom(array('test@fos.com' => 'MillarmOny.fr'))
-                ->setTo('duo@millarmony.fr')
+            $message->setSubject('Nouveau message pour le Duo MillarmOny')          // Defines the parameters of the message
+                ->setFrom(array('fabrice.loubier@gmail.com' => 'MillarmOny.fr'))
+                ->setTo('millarmony@loubier.fr')
                 ->setContentType('text/html')
                 ->setCharset('utf-8')
                 ->setBody(
                     $this->renderView('MillarmonySiteBundle:Email:email.hmtl.twig',
                         array('post' => $post)));
-            $this->get('mailer')->send($message);
+            $this->get('mailer')->send($message);                                   // Send message
 
             $request->getSession()->getFlashBag()->add('info', 'Votre message a bien été envoyé.');
             return $this->redirectToRoute('millarmony_site_homepage');

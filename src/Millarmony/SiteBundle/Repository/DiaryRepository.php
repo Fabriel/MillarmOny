@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class DiaryRepository extends EntityRepository
 {
+    // Get back and return a list of concerts later than a date
     public function getDiary($date)
     {
         return $this->createQueryBuilder('d')
@@ -22,6 +23,8 @@ class DiaryRepository extends EntityRepository
             ;
     }
 
+    // Get back and return a list of concerts previous to a date (not used currently)
+    /*
     public function getArchives($date)
     {
         return $this->createQueryBuilder('d')
@@ -32,7 +35,9 @@ class DiaryRepository extends EntityRepository
             ->getResult()
             ;
     }
+    */
 
+    // Get back and return the next concert
     public function getNext($date)
     {
         return $this->createQueryBuilder('d')

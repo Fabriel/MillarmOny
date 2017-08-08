@@ -368,9 +368,13 @@
                                                 <td style="text-align: center;" data-title="Pseudonyme">{{ user.username }}</a></td>
                                                 <td style="text-align: center" data-title="Édition">
                                                     {% if user.username == app.user.username %}
+                                                        <p style="text-align: center">
+                                                        <a href="{{ path('fos_user_profile_edit') }}"
+                                                           class="btn btn-info btn-xs" title="Changer votre adresse email" style="font-size: 0.75em;">
+                                                            <span class="glyphicon glyphicon-envelope"></span></a>
                                                         <a href="{{ path('fos_user_change_password') }}"
                                                            class="btn btn-info btn-xs" title="Changer votre mot de passe" style="font-size: 0.75em;">
-                                                            <span class="glyphicon glyphicon-edit"></span></a>
+                                                            <span class="glyphicon glyphicon-lock"></span></a></p>
                                                     {% else %}
                                                         <button type="button" class="btn btn-danger btn-xs" title="Supprimer"
                                                                 data-toggle="modal" data-target="#userDialog{{ user.id }}">

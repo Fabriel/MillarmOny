@@ -366,32 +366,38 @@
                                         {% for user in users %}
                                             <tr>
                                                 <td style="text-align: center;" data-title="Pseudonyme">{{ user.username }}</a></td>
-                                                <td style="text-align: center" data-title="Suppression">
-                                                    <button type="button" class="btn btn-danger btn-xs" title="Supprimer"
-                                                            data-toggle="modal" data-target="#userDialog{{ user.id }}">
-                                                        <span class="glyphicon glyphicon-remove"></span>
-                                                    </button>
-                                                    <div class="modal fade" id="userDialog{{ user.id }}" tabindex="-1" role="dialog"
-                                                         aria-labelledby="myModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <button type="button" class="close" data-dismiss="modal"
-                                                                            aria-hidden="true">&times;</button>
-                                                                    <h4 class="modal-title" id="myModalLabel">Confirmation nécessaire</h4>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    Voulez-vous vraiment supprimer ce membre ?
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                                        Annuler</button>
-                                                                    <a href="{{ path('millarmony_admin_deleteUser', { 'id': user.id }) }}"
-                                                                       class="btn btn-danger" style="font-size: 0.85em;">Confirmer</a>
+                                                <td style="text-align: center" data-title="Édition">
+                                                    {% if user.username == app.user.username %}
+                                                        <a href="{{ path('fos_user_change_password') }}"
+                                                           class="btn btn-info btn-xs" title="Changer votre mot de passe" style="font-size: 0.75em;">
+                                                            <span class="glyphicon glyphicon-edit"></span></a>
+                                                    {% else %}
+                                                        <button type="button" class="btn btn-danger btn-xs" title="Supprimer"
+                                                                data-toggle="modal" data-target="#userDialog{{ user.id }}">
+                                                            <span class="glyphicon glyphicon-remove"></span>
+                                                        </button>
+                                                        <div class="modal fade" id="userDialog{{ user.id }}" tabindex="-1" role="dialog"
+                                                             aria-labelledby="myModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                                aria-hidden="true">&times;</button>
+                                                                        <h4 class="modal-title" id="myModalLabel">Confirmation nécessaire</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        Voulez-vous vraiment supprimer ce membre ?
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                                            Annuler</button>
+                                                                        <a href="{{ path('millarmony_admin_deleteUser', { 'id': user.id }) }}"
+                                                                           class="btn btn-danger" style="font-size: 0.85em;">Confirmer</a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    {% endif %}
                                                 </td>
                                             </tr>
                                         {% endfor %}

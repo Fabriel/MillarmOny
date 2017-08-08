@@ -5,23 +5,19 @@
 {% block content %}
     <div class="container registration">
 
-        {% for flashMessage in app.session.flashbag.get('info') %}
-            <div class="alert alert-success text-center">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
-
         <div class="row">
 
             <div class="box">
 
+                <div class="alert alert-success text-center">Le nouveau mot de passe a bien été enregistré.</div>
+
                 <div class="text-center">
                     <p><strong>Pseudo :</strong><br />
-                        {{ user.username }}</p>
-                    <br /><br />
+                        <em>{{ user.username }}</em></p>
+                    <br />
                     <p><strong>Adresse e-mail :</strong><br />
-                        {{ user.email }}</p>
-                    <br /><br />
+                        <em>{{ user.email }}</em></p>
+                    <br />
                 </div>
 
             </div>

@@ -9,6 +9,12 @@
 
             <div class="box">
 
+                {% for flashMessage in app.session.flashbag.get('error') %}
+                    <div class="alert alert-danger text-center">
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+
                 <hr>
                 <h2 class="intro-text text-center"><strong>Réinitialisation du mot de passe</strong></h2>
                 <hr>

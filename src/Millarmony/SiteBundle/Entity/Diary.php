@@ -4,6 +4,7 @@ namespace Millarmony\SiteBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Diary
@@ -54,6 +55,8 @@ class Diary
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     *
+     * @Assert\NotBlank(message = "Vous n'avez saisi aucun texte !")
      */
     private $description;
 

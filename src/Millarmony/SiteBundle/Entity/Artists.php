@@ -3,6 +3,7 @@
 namespace Millarmony\SiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Artists
@@ -39,6 +40,8 @@ class Artists
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     *
+     * @Assert\NotBlank(message = "Vous n'avez saisi aucun texte !")
      */
     private $description;
 
